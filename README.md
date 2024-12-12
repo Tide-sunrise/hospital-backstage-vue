@@ -27,3 +27,5 @@ npm run dev
 ```sh
 npm run build
 ```
+
+vscode就是个飞舞
