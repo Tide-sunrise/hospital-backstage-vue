@@ -176,7 +176,7 @@ const handleCommand = (command) => {
         <router-view></router-view>
       </el-main>
       <!-- 底部区域 -->
-      <el-footer>吧唧吧唧医院挂号管理系统后台 ©2024 Created by 张栩嘉</el-footer>
+      <el-footer>吧唧吧唧医院挂号管理系统后台 ©2024 Created by 张栩嘉 好好好</el-footer>
     </el-container>
   </el-container>
 </template>
