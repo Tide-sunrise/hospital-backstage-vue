@@ -4,7 +4,7 @@ import {
   Delete
 } from '@element-plus/icons-vue'
 import { ref } from 'vue'
-const categorys = ref([
+const patients = ref([
 
 ])
 
@@ -12,7 +12,7 @@ import {articleCategoryListService,articleCategoryAddService,articleCategoryUpda
 
 const articleCategoryList = async () => {
   let result = await articleCategoryListService();
-  categorys.value=result.data;
+  patients.value=result.data;
 }
 
 articleCategoryList();
@@ -20,16 +20,16 @@ articleCategoryList();
 const dialogVisible = ref(false)
 
 //添加分类数据模型
-const categoryModel = ref({
-  categoryName: '',
-  categoryAlias: ''
+const patientModel = ref({
+  patientName: '',
+  patientAlias: ''
 })
 //添加分类表单校验
 const rules = {
-  categoryName: [
+  patientName: [
     { required: true, message: '请输入分类名称', trigger: 'blur' },
   ],
-  categoryAlias: [
+  patientAlias: [
     { required: true, message: '请输入分类别名', trigger: 'blur' },
   ]
 }
@@ -41,7 +41,7 @@ import {ElMessage, ElMessageBox} from "element-plus";
 const addCategory = async () => {
 
   //调用接口
-  let result = await articleCategoryAddService(categoryModel.value);
+  let result = await articleCategoryAddService(patientModel.value);
   ElMessage.success(result.message ? result.message : '添加成功');
 
   //调用获取所有文章分类的函数
@@ -58,16 +58,16 @@ const showDialog = (row) => {
   dialogVisible.value = true;
   title.value = '编辑分类';
   //数据拷贝
-  categoryModel.value.categoryName = row.categoryName;
-  categoryModel.value.categoryAlias = row.categoryAlias;
+  patientModel.value.patientName = row.patientName;
+  patientModel.value.patientAlias = row.patientAlias;
   //扩展id属性，将来需要传递给后台，完成分类的修改
-  categoryModel.value.id = row.id;
+  patientModel.value.id = row.id;
 }
 
 //编辑分类
 const updateCategory = async () => {
   //调用接口
-  let result = await articleCategoryUpdateService(categoryModel.value);
+  let result = await articleCategoryUpdateService(patientModel.value);
   ElMessage.success(result.message ? result.message : '修改成功');
   //调用获取所有文章分类的函数
   articleCategoryList();
@@ -77,8 +77,8 @@ const updateCategory = async () => {
 
 //清空模型数据
 const clearData = () => {
-  categoryModel.value.categoryName = '';
-  categoryModel.value.categoryAlias = '';
+  patientModel.value.patientName = '';
+  patientModel.value.patientAlias = '';
 }
 
 //删除分类
@@ -121,7 +121,7 @@ const deleteCategory = (row) => {
         </div>
       </div>
     </template>
-    <el-table :data="categorys" style="width: 100%">
+    <el-table :data="patients" style="width: 100%">
       <el-table-column label="患者id" width="100" type="index"> </el-table-column>
       <el-table-column label="姓名" width="100" type="index"> </el-table-column>
       <el-table-column label="性别" width="100" type="index"> </el-table-column>
@@ -142,12 +142,12 @@ const deleteCategory = (row) => {
 
     <!-- 添加分类弹窗 -->
     <el-dialog v-model="dialogVisible" :title="title" width="30%">
-      <el-form :model="categoryModel" :rules="rules" label-width="100px" style="padding-right: 30px">
-        <el-form-item label="分类名称" prop="categoryName">
-          <el-input v-model="categoryModel.categoryName" minlength="1" maxlength="10"></el-input>
+      <el-form :model="patientModel" :rules="rules" label-width="100px" style="padding-right: 30px">
+        <el-form-item label="分类名称" prop="patientName">
+          <el-input v-model="patientModel.patientName" minlength="1" maxlength="10"></el-input>
         </el-form-item>
-        <el-form-item label="分类别名" prop="categoryAlias">
-          <el-input v-model="categoryModel.categoryAlias" minlength="1" maxlength="15"></el-input>
+        <el-form-item label="分类别名" prop="patientAlias">
+          <el-input v-model="patientModel.patientAlias" minlength="1" maxlength="15"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>

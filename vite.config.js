@@ -17,7 +17,7 @@ export default defineConfig({
     port: 5178, //
     proxy:{
       '/api':{//获取路径中包含了/api的请求
-          target:'http://localhost:8080',//后台服务器所在的源
+          target:'http://localhost:8081',//后台服务器所在的源
           changeOrigin:true,//修改源
           rewrite:(path)=>path.replace(/^\/api/,'')///api替换为''
       },

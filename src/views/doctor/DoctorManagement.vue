@@ -4,47 +4,47 @@ import {
   Delete
 } from '@element-plus/icons-vue'
 import { ref } from 'vue'
-const categorys = ref([
+const doctors = ref([
 
 ])
 
-import {articleCategoryListService,articleCategoryAddService,articleCategoryUpdateService,articleCategoryDeleteService} from "@/api/article.js";
+import {doctorListService,doctorAddService,doctorUpdateService,doctorDeleteService} from "@/api/doctor.js";
 
 const articleCategoryList = async () => {
-  let result = await articleCategoryListService();
-  categorys.value=result.data;
+  let result = await doctorListService();
+  doctors.value=result.data;
 }
 
 articleCategoryList();
-//控制添加分类弹窗
+//控制添加医生弹窗
 const dialogVisible = ref(false)
 
-//添加分类数据模型
-const categoryModel = ref({
-  categoryName: '',
-  categoryAlias: ''
+//添加医生数据模型
+const doctorModel = ref({
+  doctorName: '',
+  doctorAlias: ''
 })
-//添加分类表单校验
+//添加医生表单校验
 const rules = {
-  categoryName: [
-    { required: true, message: '请输入分类名称', trigger: 'blur' },
+  doctorName: [
+    { required: true, message: '请输入医生名称', trigger: 'blur' },
   ],
-  categoryAlias: [
-    { required: true, message: '请输入分类别名', trigger: 'blur' },
+  doctorAlias: [
+    { required: true, message: '请输入医生别名', trigger: 'blur' },
   ]
 }
 
 
-//调用添加分类接口
+//调用添加医生接口
 import {ElMessage, ElMessageBox} from "element-plus";
 
 const addCategory = async () => {
 
   //调用接口
-  let result = await articleCategoryAddService(categoryModel.value);
+  let result = await doctorAddService(doctorModel.value);
   ElMessage.success(result.message ? result.message : '添加成功');
 
-  //调用获取所有文章分类的函数
+  //调用获取所有文章医生的函数
   articleCategoryList();
   //关闭弹窗
   dialogVisible.value = false;
@@ -56,20 +56,20 @@ const title = ref('')
 //展示编辑弹窗
 const showDialog = (row) => {
   dialogVisible.value = true;
-  title.value = '编辑分类';
+  title.value = '编辑医生';
   //数据拷贝
-  categoryModel.value.categoryName = row.categoryName;
-  categoryModel.value.categoryAlias = row.categoryAlias;
-  //扩展id属性，将来需要传递给后台，完成分类的修改
-  categoryModel.value.id = row.id;
+  doctorModel.value.doctorName = row.doctorName;
+  doctorModel.value.doctorAlias = row.doctorAlias;
+  //扩展id属性，将来需要传递给后台，完成医生的修改
+  doctorModel.value.id = row.id;
 }
 
-//编辑分类
+//编辑医生
 const updateCategory = async () => {
   //调用接口
-  let result = await articleCategoryUpdateService(categoryModel.value);
+  let result = await doctorUpdateService(doctorModel.value);
   ElMessage.success(result.message ? result.message : '修改成功');
-  //调用获取所有文章分类的函数
+  //调用获取所有文章医生的函数
   articleCategoryList();
   //关闭弹窗
   dialogVisible.value = false;
@@ -77,11 +77,11 @@ const updateCategory = async () => {
 
 //清空模型数据
 const clearData = () => {
-  categoryModel.value.categoryName = '';
-  categoryModel.value.categoryAlias = '';
+  doctorModel.value.doctorName = '';
+  doctorModel.value.doctorAlias = '';
 }
 
-//删除分类
+//删除医生
 const deleteCategory = (row) => {
   //提示用户 确认框
   ElMessageBox.confirm(
@@ -94,8 +94,8 @@ const deleteCategory = (row) => {
       }
   )
       .then(async () => {
-        //调用分类删除接口
-        let result = await articleCategoryDeleteService(row.id);
+        //调用医生删除接口
+        let result = await doctorDeleteService(row.id);
         ElMessage({
           type: 'success',
           message: '删除成功',
@@ -115,21 +115,19 @@ const deleteCategory = (row) => {
   <el-card class="page-container">
     <template #header>
       <div class="header">
-        <span>排班信息概览</span>
+        <span>医生信息概览</span>
         <div class="extra">
-          <el-button type="primary" @click="dialogVisible=true ;title='添加分类';clearData()" >添加分类</el-button>
+          <el-button type="primary" @click="dialogVisible=true ;title='添加医生';clearData()" >添加医生</el-button>
         </div>
       </div>
     </template>
-    <el-table :data="categorys" style="width: 100%">
-      <el-table-column label="时间段" width="150" type="index"> </el-table-column>
-      <el-table-column label="医生id" width="100" type="index"> </el-table-column>
-      <el-table-column label="姓名" width="100" type="index"> </el-table-column>
-      <el-table-column label="性别" width="100" type="index"> </el-table-column>
-      <el-table-column label="所属部门" width="150" type="index"> </el-table-column>
-      <el-table-column label="职称" width="100" type="index"> </el-table-column>
-<!--      <el-table-column label="照片" width="150" type="index"> </el-table-column>-->
-      <el-table-column label="简介" width="470" type="index"> </el-table-column>
+    <el-table :data="doctors" style="width: 100%">
+      <el-table-column label="医生id" width="100" prop="doctorId"> </el-table-column>
+      <el-table-column label="姓名" width="200" prop="name"> </el-table-column>
+      <el-table-column label="性别" width="100" prop="gender"> </el-table-column>
+      <el-table-column label="所属部门" width="150" prop="departmentName"> </el-table-column>
+      <el-table-column label="职称" width="150" prop="specializationName"> </el-table-column>
+      <el-table-column label="简介" width="450" prop="introduction"> </el-table-column>
       <el-table-column label="操作" width="100">
         <template #default="{ row }">
           <el-button :icon="Edit" circle plain type="primary" @click="showDialog(row)" ></el-button>
@@ -141,20 +139,20 @@ const deleteCategory = (row) => {
       </template>
     </el-table>
 
-    <!-- 添加分类弹窗 -->
+    <!-- 添加医生弹窗 -->
     <el-dialog v-model="dialogVisible" :title="title" width="30%">
-      <el-form :model="categoryModel" :rules="rules" label-width="100px" style="padding-right: 30px">
-        <el-form-item label="分类名称" prop="categoryName">
-          <el-input v-model="categoryModel.categoryName" minlength="1" maxlength="10"></el-input>
+      <el-form :model="doctorModel" :rules="rules" label-width="100px" style="padding-right: 30px">
+        <el-form-item label="医生名称" prop="doctorName">
+          <el-input v-model="doctorModel.doctorName" minlength="1" maxlength="10"></el-input>
         </el-form-item>
-        <el-form-item label="分类别名" prop="categoryAlias">
-          <el-input v-model="categoryModel.categoryAlias" minlength="1" maxlength="15"></el-input>
+        <el-form-item label="医生别名" prop="doctorAlias">
+          <el-input v-model="doctorModel.doctorAlias" minlength="1" maxlength="15"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
             <el-button @click="dialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="title=='添加分类'?addCategory():updateCategory()"> 确认 </el-button>
+            <el-button type="primary" @click="title=='添加医生'?addCategory():updateCategory()"> 确认 </el-button>
         </span>
       </template>
     </el-dialog>
