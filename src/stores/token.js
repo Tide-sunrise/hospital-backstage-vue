@@ -6,10 +6,11 @@ export const useTokenStore = defineStore('token',()=>{
         //定义状态的内容
 
         //1.响应式变量
-        const token=ref('')
+        const token=ref(localStorage.getItem('token')||'')
 
         //2.定义一个函数，修改token的值
-        const setToken=(newToken)=>{
+        const setToken = (newToken) => {
+            localStorage.setItem('token',newToken)
             token.value=newToken
         }
 

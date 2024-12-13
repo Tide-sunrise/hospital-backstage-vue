@@ -20,6 +20,7 @@ instance.interceptors.request.use(
         if (tokenStore.token){
             config.headers.Authorization=tokenStore.token;
         }
+        console.log(config)
         return config;
     },
     (err)=>{
