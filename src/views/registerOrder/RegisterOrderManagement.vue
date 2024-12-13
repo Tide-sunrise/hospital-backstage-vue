@@ -4,15 +4,15 @@ import {
   Delete
 } from '@element-plus/icons-vue'
 import { ref } from 'vue'
-const categorys = ref([
+const registerOrders = ref([
 
 ])
 
-import {articleCategoryListService,articleCategoryAddService,articleCategoryUpdateService,articleCategoryDeleteService} from "@/api/article.js";
+import {registerOrderListService,registerOrderAddService,registerOrderUpdateService,registerOrderDeleteService} from "@/api/registerOrder.js";
 
 const articleCategoryList = async () => {
-  let result = await articleCategoryListService();
-  categorys.value=result.data;
+  let result = await registerOrderListService();
+  registerOrders.value=result.data;
 }
 
 articleCategoryList();
@@ -20,16 +20,16 @@ articleCategoryList();
 const dialogVisible = ref(false)
 
 //添加分类数据模型
-const categoryModel = ref({
-  categoryName: '',
-  categoryAlias: ''
+const registerOrderModel = ref({
+  registerOrderName: '',
+  registerOrderAlias: ''
 })
 //添加分类表单校验
 const rules = {
-  categoryName: [
+  registerOrderName: [
     { required: true, message: '请输入分类名称', trigger: 'blur' },
   ],
-  categoryAlias: [
+  registerOrderAlias: [
     { required: true, message: '请输入分类别名', trigger: 'blur' },
   ]
 }
@@ -41,7 +41,7 @@ import {ElMessage, ElMessageBox} from "element-plus";
 const addCategory = async () => {
 
   //调用接口
-  let result = await articleCategoryAddService(categoryModel.value);
+  let result = await registerOrderAddService(registerOrderModel.value);
   ElMessage.success(result.message ? result.message : '添加成功');
 
   //调用获取所有文章分类的函数
@@ -58,16 +58,16 @@ const showDialog = (row) => {
   dialogVisible.value = true;
   title.value = '编辑分类';
   //数据拷贝
-  categoryModel.value.categoryName = row.categoryName;
-  categoryModel.value.categoryAlias = row.categoryAlias;
+  registerOrderModel.value.registerOrderName = row.registerOrderName;
+  registerOrderModel.value.registerOrderAlias = row.registerOrderAlias;
   //扩展id属性，将来需要传递给后台，完成分类的修改
-  categoryModel.value.id = row.id;
+  registerOrderModel.value.id = row.id;
 }
 
 //编辑分类
 const updateCategory = async () => {
   //调用接口
-  let result = await articleCategoryUpdateService(categoryModel.value);
+  let result = await registerOrderUpdateService(registerOrderModel.value);
   ElMessage.success(result.message ? result.message : '修改成功');
   //调用获取所有文章分类的函数
   articleCategoryList();
@@ -77,8 +77,8 @@ const updateCategory = async () => {
 
 //清空模型数据
 const clearData = () => {
-  categoryModel.value.categoryName = '';
-  categoryModel.value.categoryAlias = '';
+  registerOrderModel.value.registerOrderName = '';
+  registerOrderModel.value.registerOrderAlias = '';
 }
 
 //删除分类
@@ -95,7 +95,7 @@ const deleteCategory = (row) => {
   )
       .then(async () => {
         //调用分类删除接口
-        let result = await articleCategoryDeleteService(row.id);
+        let result = await registerOrderDeleteService(row.id);
         ElMessage({
           type: 'success',
           message: '删除成功',
@@ -121,15 +121,15 @@ const deleteCategory = (row) => {
         </div>
       </div>
     </template>
-    <el-table :data="categorys" style="width: 100%">
-      <el-table-column label="挂号记录id" width="150" type="index"> </el-table-column>
-      <el-table-column label="医生姓名" width="100" type="index"> </el-table-column>
-      <el-table-column label="患者姓名" width="100" type="index"> </el-table-column>
-      <el-table-column label="时间段" width="100" type="index"> </el-table-column>
-      <el-table-column label="订单状态" width="150" type="index"> </el-table-column>
-      <el-table-column label="备注" width="100" type="index"> </el-table-column>
-      <el-table-column label="挂号费用" width="150" type="index"> </el-table-column>
-      <el-table-column label="订单生成时间" width="320" type="index"> </el-table-column>
+    <el-table :data="registerOrders" style="width: 100%">
+      <el-table-column label="挂号记录id" width="150" prop="appointmentId"> </el-table-column>
+      <el-table-column label="医生姓名" width="100" prop=""> </el-table-column>
+      <el-table-column label="患者姓名" width="100" prop=""> </el-table-column>
+      <el-table-column label="时间段" width="100" prop=""> </el-table-column>
+      <el-table-column label="订单状态" width="150" prop=""> </el-table-column>
+      <el-table-column label="备注" width="100" prop=""> </el-table-column>
+      <el-table-column label="挂号费用" width="150" prop=""> </el-table-column>
+      <el-table-column label="订单生成时间" width="320" prop=""> </el-table-column>
       <el-table-column label="操作" width="100">
         <template #default="{ row }">
           <el-button :icon="Edit" circle plain type="primary" @click="showDialog(row)" ></el-button>
@@ -143,12 +143,12 @@ const deleteCategory = (row) => {
 
     <!-- 添加分类弹窗 -->
     <el-dialog v-model="dialogVisible" :title="title" width="30%">
-      <el-form :model="categoryModel" :rules="rules" label-width="100px" style="padding-right: 30px">
-        <el-form-item label="分类名称" prop="categoryName">
-          <el-input v-model="categoryModel.categoryName" minlength="1" maxlength="10"></el-input>
+      <el-form :model="registerOrderModel" :rules="rules" label-width="100px" style="padding-right: 30px">
+        <el-form-item label="分类名称" prop="registerOrderName">
+          <el-input v-model="registerOrderModel.registerOrderName" minlength="1" maxlength="10"></el-input>
         </el-form-item>
-        <el-form-item label="分类别名" prop="categoryAlias">
-          <el-input v-model="categoryModel.categoryAlias" minlength="1" maxlength="15"></el-input>
+        <el-form-item label="分类别名" prop="registerOrderAlias">
+          <el-input v-model="registerOrderModel.registerOrderAlias" minlength="1" maxlength="15"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>

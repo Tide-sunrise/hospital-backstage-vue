@@ -9,15 +9,16 @@ export const doctorListService = (params) => {
 
 //医生添加
 export const doctorAddService = (doctorData) => {
-    return request.post('/doctor', doctorData)
+    return request.put('/doctors', doctorData)
 }
 
 //医生修改
 export const doctorUpdateService = (doctorData) => {
-    return request.put('/doctor', doctorData)
+    return request.post('/doctors', doctorData)
 }
 
 //医生删除
 export const doctorDeleteService = (id) => {
-    return request.delete('/doctor?id='+id)
+    console.log(id);
+    return request.delete('/doctors/'+id)
 }

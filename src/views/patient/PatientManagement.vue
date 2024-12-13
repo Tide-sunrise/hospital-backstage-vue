@@ -8,29 +8,35 @@ const patients = ref([
 
 ])
 
-import {articleCategoryListService,articleCategoryAddService,articleCategoryUpdateService,articleCategoryDeleteService} from "@/api/article.js";
+import {patientListService,patientAddService,patientUpdateService,patientDeleteService} from "@/api/patient.js";
 
-const articleCategoryList = async () => {
-  let result = await articleCategoryListService();
+const patientList = async () => {
+  let result = await patientListService();
   patients.value=result.data;
 }
 
-articleCategoryList();
+patientList();
 //控制添加分类弹窗
 const dialogVisible = ref(false)
 
 //添加分类数据模型
 const patientModel = ref({
+  patientId: '',
   patientName: '',
-  patientAlias: ''
+  patientCleartextId: ''
 })
 //添加分类表单校验
 const rules = {
-  patientName: [
-    { required: true, message: '请输入分类名称', trigger: 'blur' },
+  patientId: [
+    { required: true, message: '请输入患者id', trigger: 'blur' },
   ],
-  patientAlias: [
-    { required: true, message: '请输入分类别名', trigger: 'blur' },
+  patientName: [
+    { required: true, message: '请输入患者姓名', trigger: 'blur' },
+    { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
+  ],
+  patientCleartextId: [
+    { required: true, message: '请输入患者身份证号', trigger: 'blur' },
+    { min: 1, max: 18, message: '长度为 18 个字符', trigger: 'blur' }
   ]
 }
 
@@ -38,14 +44,14 @@ const rules = {
 //调用添加分类接口
 import {ElMessage, ElMessageBox} from "element-plus";
 
-const addCategory = async () => {
+const addPatient = async () => {
 
   //调用接口
-  let result = await articleCategoryAddService(patientModel.value);
+  let result = await patientAddService(patientModel.value);
   ElMessage.success(result.message ? result.message : '添加成功');
 
   //调用获取所有文章分类的函数
-  articleCategoryList();
+  patientList();
   //关闭弹窗
   dialogVisible.value = false;
 }
@@ -58,6 +64,7 @@ const showDialog = (row) => {
   dialogVisible.value = true;
   title.value = '编辑分类';
   //数据拷贝
+  patientModel.value.patientId = row.patientId;
   patientModel.value.patientName = row.patientName;
   patientModel.value.patientAlias = row.patientAlias;
   //扩展id属性，将来需要传递给后台，完成分类的修改
@@ -65,25 +72,27 @@ const showDialog = (row) => {
 }
 
 //编辑分类
-const updateCategory = async () => {
+const updatePatient = async () => {
   //调用接口
-  let result = await articleCategoryUpdateService(patientModel.value);
+  let result = await patientUpdateService(patientModel.value);
   ElMessage.success(result.message ? result.message : '修改成功');
   //调用获取所有文章分类的函数
-  articleCategoryList();
+  patientList();
   //关闭弹窗
   dialogVisible.value = false;
 }
 
 //清空模型数据
 const clearData = () => {
+  patientModel.value.patientId = '';
   patientModel.value.patientName = '';
-  patientModel.value.patientAlias = '';
+  patientModel.value.patientCleartextId = '';
 }
 
 //删除分类
-const deleteCategory = (row) => {
+const deletePatient = (row) => {
   //提示用户 确认框
+  console.log(row);
   ElMessageBox.confirm(
       '你要删除这条信息🐎？',
       '警告',
@@ -95,13 +104,13 @@ const deleteCategory = (row) => {
   )
       .then(async () => {
         //调用分类删除接口
-        let result = await articleCategoryDeleteService(row.id);
+        let result = await patientDeleteService(row.patientId);
         ElMessage({
           type: 'success',
           message: '删除成功',
         })
         //刷新列表
-        articleCategoryList();
+        patientList();
       })
       .catch(() => {
         ElMessage({
@@ -122,17 +131,13 @@ const deleteCategory = (row) => {
       </div>
     </template>
     <el-table :data="patients" style="width: 100%">
-      <el-table-column label="患者id" width="100" type="index"> </el-table-column>
-      <el-table-column label="姓名" width="100" type="index"> </el-table-column>
-      <el-table-column label="性别" width="100" type="index"> </el-table-column>
-      <el-table-column label="出生日期" width="150" type="index"> </el-table-column>
-      <el-table-column label="电话号码" width="150" type="index"> </el-table-column>
-      <el-table-column label="身份证号" width="200" type="index"> </el-table-column>
-      <el-table-column label="症状" width="370" type="index"> </el-table-column>
-      <el-table-column label="操作" width="100">
+      <el-table-column label="患者id" width="200" prop="patientId"> </el-table-column>
+      <el-table-column label="姓名" width="250" prop="name"> </el-table-column>
+      <el-table-column label="身份证号" width="400" prop="cleartextId"> </el-table-column>
+      <el-table-column label="操作" width="400">
         <template #default="{ row }">
           <el-button :icon="Edit" circle plain type="primary" @click="showDialog(row)" ></el-button>
-          <el-button :icon="Delete" circle plain type="danger" @click="deleteCategory(row)"></el-button>
+          <el-button :icon="Delete" circle plain type="danger" @click="deletePatient(row)"></el-button>
         </template>
       </el-table-column>
       <template #empty>
@@ -143,17 +148,17 @@ const deleteCategory = (row) => {
     <!-- 添加分类弹窗 -->
     <el-dialog v-model="dialogVisible" :title="title" width="30%">
       <el-form :model="patientModel" :rules="rules" label-width="100px" style="padding-right: 30px">
-        <el-form-item label="分类名称" prop="patientName">
-          <el-input v-model="patientModel.patientName" minlength="1" maxlength="10"></el-input>
+        <el-form-item label="患者姓名" prop="patientName">
+          <el-input v-model="patientModel.patientName" placeholder="请输入患者姓名"></el-input>
         </el-form-item>
-        <el-form-item label="分类别名" prop="patientAlias">
-          <el-input v-model="patientModel.patientAlias" minlength="1" maxlength="15"></el-input>
+        <el-form-item label="身份证号" prop="patientCleartextId">
+          <el-input v-model="patientModel.patientCleartextId" placeholder="请输入患者身份证号"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
             <el-button @click="dialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="title=='添加分类'?addCategory():updateCategory()"> 确认 </el-button>
+            <el-button type="primary" @click="title=='添加分类'?addPatient():updatePatient()"> 确认 </el-button>
         </span>
       </template>
     </el-dialog>

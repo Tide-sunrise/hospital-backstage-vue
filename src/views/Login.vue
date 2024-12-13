@@ -38,18 +38,18 @@ const rules={
   ]
 }
 
-import {userRegisterService,userLoginService} from '@/api/user.js'
+import {userLoginService} from '@/api/user.js'
 import {ElMessage} from "element-plus";
-const register = async () => {
-  let result = await userRegisterService(registerData.value);
-  // if(result.code===0){
-  //   alert(result.message?result.message:'注册成功')
-  // }else {
-  //   alert('注册失败')
-  // }
-  // alert(result.message?result.message:'注册成功');
-  ElMessage.success(result.message?result.message:'注册成功')
-}
+// const register = async () => {
+//   let result = await userRegisterService(registerData.value);
+//   // if(result.code===0){
+//   //   alert(result.message?result.message:'注册成功')
+//   // }else {
+//   //   alert('注册失败')
+//   // }
+//   // alert(result.message?result.message:'注册成功');
+//   ElMessage.success(result.message?result.message:'注册成功')
+// }
 
 //绑定数据，复用注册表单的数据类型
 //登录函数

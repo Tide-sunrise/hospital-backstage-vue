@@ -1,13 +1,5 @@
 <script setup>
 import {
-  Management,
-  Promotion,
-  UserFilled,
-  User,
-  Crop,
-  EditPen,
-  SwitchButton,
-  CaretBottom,
   List,
   Checked,
   Failed
@@ -15,7 +7,7 @@ import {
 import avatar from '@/assets/default.png'
 
 //调用函数，获取用户详细信息
-import {userInfoService} from "@/api/user.js";
+// import {userInfoService} from "@/api/user.js";
 import useUserInfoStore from "@/stores/userinfo.js";
 import {useTokenStore} from "@/stores/token.js";
 const tokenStore = useTokenStore();
@@ -23,9 +15,9 @@ import {ElMessage, ElMessageBox} from "element-plus";
 
 const userInfoStore = useUserInfoStore();
 const getUserInfo = async () => {
-  let result = await userInfoService();
+  // let result = await userInfoService();
   //数据存储到pinia中
-  userInfoStore.setInfo(result.data);
+  // userInfoStore.setInfo(result.data);
 }
 
 getUserInfo();
@@ -117,32 +109,32 @@ const handleCommand = (command) => {
           <span>挂号记录管理</span>
         </el-menu-item>
 
-        <el-sub-menu >
-          <template #title>
-            <el-icon>
-              <UserFilled />
-            </el-icon>
-            <span>个人中心</span>
-          </template>
-          <el-menu-item index="/user/info">
-            <el-icon>
-              <User />
-            </el-icon>
-            <span>基本资料</span>
-          </el-menu-item>
-<!--          <el-menu-item index="/user/avatar">-->
+<!--        <el-sub-menu >-->
+<!--          <template #title>-->
 <!--            <el-icon>-->
-<!--              <Crop />-->
+<!--              <UserFilled />-->
 <!--            </el-icon>-->
-<!--            <span>更换头像</span>-->
+<!--            <span>个人中心</span>-->
+<!--          </template>-->
+<!--          <el-menu-item index="/user/info">-->
+<!--            <el-icon>-->
+<!--              <User />-->
+<!--            </el-icon>-->
+<!--            <span>基本资料</span>-->
 <!--          </el-menu-item>-->
-          <el-menu-item index="/user/resetPassword">
-            <el-icon>
-              <EditPen />
-            </el-icon>
-            <span>重置密码</span>
-          </el-menu-item>
-        </el-sub-menu>
+<!--&lt;!&ndash;          <el-menu-item index="/user/avatar">&ndash;&gt;-->
+<!--&lt;!&ndash;            <el-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;              <Crop />&ndash;&gt;-->
+<!--&lt;!&ndash;            </el-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;            <span>更换头像</span>&ndash;&gt;-->
+<!--&lt;!&ndash;          </el-menu-item>&ndash;&gt;-->
+<!--          <el-menu-item index="/user/resetPassword">-->
+<!--            <el-icon>-->
+<!--              <EditPen />-->
+<!--            </el-icon>-->
+<!--            <span>重置密码</span>-->
+<!--          </el-menu-item>-->
+<!--        </el-sub-menu>-->
       </el-menu>
     </el-aside>
     <!-- 右侧主区域 -->
@@ -160,9 +152,9 @@ const handleCommand = (command) => {
           <!-- command:条目被点击后会触发，在事件函数上可以声明一个参数接收条目对应的指令-->
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="info" :icon="User">基本资料</el-dropdown-item>
+<!--              <el-dropdown-item command="info" :icon="User">基本资料</el-dropdown-item>-->
 <!--              <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>-->
-              <el-dropdown-item command="resetPassword" :icon="EditPen">重置密码</el-dropdown-item>
+<!--              <el-dropdown-item command="resetPassword" :icon="EditPen">重置密码</el-dropdown-item>-->
               <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
