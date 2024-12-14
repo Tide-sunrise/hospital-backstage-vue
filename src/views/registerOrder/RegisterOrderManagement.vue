@@ -13,7 +13,18 @@ import {registerOrderListService,registerOrderAddService,registerOrderUpdateServ
 const articleCategoryList = async () => {
   let result = await registerOrderListService();
   registerOrders.value=result.data;
+  console.log(registerOrders.value);
+  registerOrders.value.forEach(order => {
+    order.status = statusMap[order.status] || '未知状态';
+  });
 }
+const statusMap = {
+  1: '待确认',
+  2: '已确认',
+  3: '已取消',
+  4: '已完成'
+};
+
 
 articleCategoryList();
 //控制添加分类弹窗
@@ -21,16 +32,51 @@ const dialogVisible = ref(false)
 
 //添加分类数据模型
 const registerOrderModel = ref({
-  registerOrderName: '',
-  registerOrderAlias: ''
+  appointmentId: '',
+  doctorName: '',
+  userName: '',
+  patientName: '',
+  appointmentDate: '',
+  appointmentTimeInfo: '',
+  status: '',
+  information: '',
+  fee: '',
+  createdTime: ''
 })
 //添加分类表单校验
 const rules = {
-  registerOrderName: [
-    { required: true, message: '请输入分类名称', trigger: 'blur' },
+  appointmentId: [
+    { required: true, message: '请输入挂号记录id', trigger: 'blur' },
   ],
-  registerOrderAlias: [
-    { required: true, message: '请输入分类别名', trigger: 'blur' },
+  doctorName: [
+    { required: true, message: '请输入医生姓名', trigger: 'blur' },
+    { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
+  ],
+  userName: [
+    { required: true, message: '请输入挂号用户', trigger: 'blur' },
+    { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
+  ],
+  patientName: [
+    { required: true, message: '请输入患者姓名', trigger: 'blur' },
+    { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
+  ],
+  appointmentDate: [
+    { required: true, message: '请输入挂号日期', trigger: 'blur' }
+  ],
+  appointmentTimeInfo: [
+    { required: true, message: '请输入时间段', trigger: 'blur' }
+  ],
+  status: [
+    { required: true, message: '请输入订单状态', trigger: 'blur' }
+  ],
+  information: [
+    { required: true, message: '请输入备注', trigger: 'blur' }
+  ],
+  fee: [
+    { required: true, message: '请输入挂号费用', trigger: 'blur' }
+  ],
+  createdTime: [
+    { required: true, message: '请输入订单生成时间', trigger: 'blur' }
   ]
 }
 
@@ -58,8 +104,16 @@ const showDialog = (row) => {
   dialogVisible.value = true;
   title.value = '编辑分类';
   //数据拷贝
-  registerOrderModel.value.registerOrderName = row.registerOrderName;
-  registerOrderModel.value.registerOrderAlias = row.registerOrderAlias;
+  registerOrderModel.value.appointmentId = row.appointmentId;
+  registerOrderModel.value.doctorName = row.doctorName;
+  registerOrderModel.value.userName = row.userName;
+  registerOrderModel.value.patientName = row.patientName;
+  registerOrderModel.value.appointmentDate = row.appointmentDate;
+  registerOrderModel.value.appointmentTimeInfo = row.appointmentTimeInfo;
+  registerOrderModel.value.status = row.status;
+  registerOrderModel.value.information = row.information;
+  registerOrderModel.value.fee = row.fee;
+  registerOrderModel.value.createdTime = row.createdTime;
   //扩展id属性，将来需要传递给后台，完成分类的修改
   registerOrderModel.value.id = row.id;
 }
@@ -77,8 +131,16 @@ const updateCategory = async () => {
 
 //清空模型数据
 const clearData = () => {
-  registerOrderModel.value.registerOrderName = '';
-  registerOrderModel.value.registerOrderAlias = '';
+  registerOrderModel.value.appointmentId = '';
+  registerOrderModel.value.doctorName = '';
+  registerOrderModel.value.userName = '';
+  registerOrderModel.value.patientName = '';
+  registerOrderModel.value.appointmentDate = '';
+  registerOrderModel.value.appointmentTimeInfo = '';
+  registerOrderModel.value.status = '';
+  registerOrderModel.value.information = '';
+  registerOrderModel.value.fee = '';
+  registerOrderModel.value.createdTime = '';
 }
 
 //删除分类
@@ -122,20 +184,22 @@ const deleteCategory = (row) => {
       </div>
     </template>
     <el-table :data="registerOrders" style="width: 100%">
-      <el-table-column label="挂号记录id" width="150" prop="appointmentId"> </el-table-column>
-      <el-table-column label="医生姓名" width="100" prop=""> </el-table-column>
-      <el-table-column label="患者姓名" width="100" prop=""> </el-table-column>
-      <el-table-column label="时间段" width="100" prop=""> </el-table-column>
-      <el-table-column label="订单状态" width="150" prop=""> </el-table-column>
-      <el-table-column label="备注" width="100" prop=""> </el-table-column>
-      <el-table-column label="挂号费用" width="150" prop=""> </el-table-column>
-      <el-table-column label="订单生成时间" width="320" prop=""> </el-table-column>
-      <el-table-column label="操作" width="100">
-        <template #default="{ row }">
-          <el-button :icon="Edit" circle plain type="primary" @click="showDialog(row)" ></el-button>
-          <el-button :icon="Delete" circle plain type="danger" @click="deleteCategory(row)"></el-button>
-        </template>
-      </el-table-column>
+      <el-table-column label="挂号id" width="80" prop="appointmentId"> </el-table-column>
+      <el-table-column label="医生姓名" width="100" prop="doctorName"> </el-table-column>
+      <el-table-column label="挂号用户" width="100" prop="userName"> </el-table-column>
+      <el-table-column label="患者姓名" width="100" prop="patientName"> </el-table-column>
+      <el-table-column label="挂号日期" width="120" prop="appointmentDate"> </el-table-column>
+      <el-table-column label="时间段" width="150" prop="appointmentTimeInfo"> </el-table-column>
+      <el-table-column label="订单状态" width="100" prop="status"> </el-table-column>
+      <el-table-column label="备注" width="200" prop="information"> </el-table-column>
+      <el-table-column label="挂号费用" width="100" prop="fee"> </el-table-column>
+      <el-table-column label="订单生成时间" width="220" prop="createdTime"> </el-table-column>
+<!--      <el-table-column label="操作" width="0">-->
+<!--        <template #default="{ row }">-->
+<!--          <el-button :icon="Edit" circle plain type="primary" @click="showDialog(row)" ></el-button>-->
+<!--          <el-button :icon="Delete" circle plain type="danger" @click="deleteCategory(row)"></el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <template #empty>
         <el-empty description="没有数据" />
       </template>
