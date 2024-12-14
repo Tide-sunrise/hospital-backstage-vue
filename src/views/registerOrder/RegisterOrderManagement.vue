@@ -178,9 +178,9 @@ const deleteCategory = (row) => {
     <template #header>
       <div class="header">
         <span>挂号记录信息</span>
-        <div class="extra">
-          <el-button type="primary" @click="dialogVisible=true ;title='添加分类';clearData()" >添加分类</el-button>
-        </div>
+<!--        <div class="extra">-->
+<!--          <el-button type="primary" @click="dialogVisible=true ;title='添加分类';clearData()" >添加分类</el-button>-->
+<!--        </div>-->
       </div>
     </template>
     <el-table :data="registerOrders" style="width: 100%">

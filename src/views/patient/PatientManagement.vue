@@ -125,9 +125,9 @@ const deletePatient = (row) => {
     <template #header>
       <div class="header">
         <span>患者信息概览</span>
-        <div class="extra">
-          <el-button type="primary" @click="dialogVisible=true ;title='添加分类';clearData()" >添加分类</el-button>
-        </div>
+<!--        <div class="extra">-->
+<!--          <el-button type="primary" @click="dialogVisible=true ;title='添加分类';clearData()" >添加分类</el-button>-->
+<!--        </div>-->
       </div>
     </template>
     <el-table :data="patients" style="width: 100%">
@@ -136,7 +136,7 @@ const deletePatient = (row) => {
       <el-table-column label="身份证号" width="400" prop="cleartextId"> </el-table-column>
       <el-table-column label="操作" width="400">
         <template #default="{ row }">
-          <el-button :icon="Edit" circle plain type="primary" @click="showDialog(row)" ></el-button>
+<!--          <el-button :icon="Edit" circle plain type="primary" @click="showDialog(row)" ></el-button>-->
           <el-button :icon="Delete" circle plain type="danger" @click="deletePatient(row)"></el-button>
         </template>
       </el-table-column>

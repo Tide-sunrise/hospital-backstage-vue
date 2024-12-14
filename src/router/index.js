@@ -6,6 +6,7 @@ import LayoutVue from '@/views/Layout.vue'
 import DoctorVue from "@/views/doctor/DoctorManagement.vue"
 import RegisterOrderVue from "@/views/registerOrder/RegisterOrderManagement.vue";
 import PatientVue from "@/views/patient/PatientManagement.vue"
+import DoctorRegulation from "@/views/doctorRegulation/DoctorRegulation.vue";
 
 import {useTokenStore} from "@/stores/token.js";
 
@@ -16,7 +17,8 @@ const routes =[
     {path: '/',component: LayoutVue,redirect:'/doctor',children:[
             {path: '/doctor',component:DoctorVue},
             {path: '/patient',component:PatientVue},
-            {path: '/registerOrder',component: RegisterOrderVue}
+            {path: '/registerOrder',component: RegisterOrderVue},
+            {path: '/doctorRegulation',component: DoctorRegulation}
 
         ]}
 ]

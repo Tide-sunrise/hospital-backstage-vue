@@ -2,7 +2,8 @@
 import {
   List,
   Checked,
-  Failed
+  Failed,
+  Finished
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/default.png'
 
@@ -108,7 +109,12 @@ const handleCommand = (command) => {
           </el-icon>
           <span>挂号记录管理</span>
         </el-menu-item>
-
+        <el-menu-item index="/doctorRegulation">
+          <el-icon>
+            <Finished />
+          </el-icon>
+          <span>医生排班记录</span>
+        </el-menu-item>
 <!--        <el-sub-menu >-->
 <!--          <template #title>-->
 <!--            <el-icon>-->
