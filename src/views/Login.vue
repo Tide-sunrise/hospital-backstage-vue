@@ -82,38 +82,12 @@ const clearRegisterData=()=>{
 
 <template>
   <el-row class="login-page">
-    <el-col :span="12" class="bg"></el-col>
     <el-col :span="6" :offset="3" class="form">
-      <!-- 注册表单 -->
-      <el-form ref="form" size="large" autocomplete="off" v-if="isRegister" :model="registerData" :rules="rules">
+      <el-form ref="form" size="large" autocomplete="off" :model="registerData" :rules="rules">
         <el-form-item>
-          <h1>注册</h1>
-        </el-form-item>
-        <el-form-item prop="username">
-          <el-input :prefix-icon="User" placeholder="请输入用户名" v-model="registerData.username"></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input :prefix-icon="Lock" type="password" placeholder="请输入密码" v-model="registerData.password"></el-input>
-        </el-form-item>
-        <el-form-item prop="rePassword">
-          <el-input :prefix-icon="Lock" type="password" placeholder="请输入再次密码" v-model="registerData.rePassword"></el-input>
-        </el-form-item>
-        <!-- 注册按钮 -->
-        <el-form-item>
-          <el-button class="button" type="primary" auto-insert-space @click="register">
-            注册
-          </el-button>
-        </el-form-item>
-        <el-form-item class="flex">
-          <el-link type="info" :underline="false" @click="isRegister = false;clearRegisterData()">
-            ← 返回
-          </el-link>
-        </el-form-item>
-      </el-form>
-      <!-- 登录表单 -->
-      <el-form ref="form" size="large" autocomplete="off" v-else :model="registerData" :rules="rules">
-        <el-form-item>
-          <h1>登录</h1>
+          <div class="block">
+            <el-image style="width: 400px; height: 50px" src="/src/assets/name.png" fit="fill" />
+          </div>
         </el-form-item>
         <el-form-item prop="username">
           <el-input :prefix-icon="User" placeholder="请输入用户名" v-model="registerData.username"></el-input>
@@ -131,13 +105,9 @@ const clearRegisterData=()=>{
         <el-form-item>
           <el-button class="button" type="primary" auto-insert-space @click="login">登录</el-button>
         </el-form-item>
-        <el-form-item class="flex">
-          <el-link type="info" :underline="false" @click="isRegister = true;clearRegisterData()">
-            注册 →
-          </el-link>
-        </el-form-item>
       </el-form>
     </el-col>
+    <el-col :span="14" class="bg"></el-col>
   </el-row>
 </template>
 
@@ -145,12 +115,16 @@ const clearRegisterData=()=>{
 /* 样式 */
 .login-page {
   height: 100vh;
-  background-color: #fff;
-
+  background-color: #b2e0fa;
+  display: flex;
+  justify-content: center;
+  //align-items: center;
   .bg {
-    background: url('@/assets/login_title.png') no-repeat 60% center / 240px auto,
-    url('@/assets/login_bg.jpg') no-repeat center / cover;
-    border-radius: 0 20px 20px 0;
+
+    //url('@/assets/login_title.png') no-repeat 60% center / 240px auto,
+    background:
+        url('@/assets/hospital.jpg') no-repeat right center / cover;
+    border-radius: 20px 0 0 20px;
   }
 
   .form {
@@ -158,7 +132,8 @@ const clearRegisterData=()=>{
     flex-direction: column;
     justify-content: center;
     user-select: none;
-
+    margin-right: 125px;
+    margin-left: 130px;
     .title {
       margin: 0 auto;
     }

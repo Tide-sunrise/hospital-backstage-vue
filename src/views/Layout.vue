@@ -1,9 +1,9 @@
 <script setup>
 import {
-  List,
-  Checked,
-  Failed,
-  Finished
+  Tickets,
+  Document,
+  Memo,
+  SetUp
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/default.png'
 
@@ -30,7 +30,7 @@ const handleCommand = (command) => {
   if (command == 'logout') {
     //提示用户 确认框
     ElMessageBox.confirm(
-        '你要删除退出登录🐎？',
+        '你要退出登录么？',
         '警告',
         {
           confirmButtonText: '确认',
@@ -70,84 +70,39 @@ const handleCommand = (command) => {
     <!-- 左侧菜单 -->
     <el-aside width="200px">
       <div class="el-aside__logo"></div>
-      <el-menu active-text-color="#ffd04b" background-color="#232323"  text-color="#fff"
+      <el-menu active-text-color="#ffd04b" background-color="#b2e0fa"  text-color="#000"
                router>
-<!--        <el-menu-item index="/article/category">-->
-<!--          <el-icon>-->
-<!--            <Management />-->
-<!--          </el-icon>-->
-<!--          <span>文章分类</span>-->
-<!--        </el-menu-item>-->
-<!--        <el-menu-item index="/article/manage">-->
-<!--          <el-icon>-->
-<!--            <Promotion />-->
-<!--          </el-icon>-->
-<!--          <span>文章管理</span>-->
-<!--        </el-menu-item>-->
-<!--        -->
-<!--        <el-menu-item index="/spring">-->
-<!--          <el-icon>-->
-
-<!--          </el-icon>-->
-<!--          <span>音乐</span>-->
-<!--        </el-menu-item>-->
         <el-menu-item index="/doctor">
           <el-icon>
-            <List />
+            <Tickets />
           </el-icon>
           <span>医生管理</span>
         </el-menu-item>
         <el-menu-item index="/patient">
           <el-icon>
-            <Failed/>
+            <Memo />
           </el-icon>
           <span>患者管理</span>
         </el-menu-item>
         <el-menu-item index="/registerOrder">
           <el-icon>
-            <Checked/>
+            <Document />
           </el-icon>
           <span>挂号记录管理</span>
         </el-menu-item>
         <el-menu-item index="/doctorRegulation">
           <el-icon>
-            <Finished />
+            <SetUp />
           </el-icon>
           <span>医生排班记录</span>
         </el-menu-item>
-<!--        <el-sub-menu >-->
-<!--          <template #title>-->
-<!--            <el-icon>-->
-<!--              <UserFilled />-->
-<!--            </el-icon>-->
-<!--            <span>个人中心</span>-->
-<!--          </template>-->
-<!--          <el-menu-item index="/user/info">-->
-<!--            <el-icon>-->
-<!--              <User />-->
-<!--            </el-icon>-->
-<!--            <span>基本资料</span>-->
-<!--          </el-menu-item>-->
-<!--&lt;!&ndash;          <el-menu-item index="/user/avatar">&ndash;&gt;-->
-<!--&lt;!&ndash;            <el-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;              <Crop />&ndash;&gt;-->
-<!--&lt;!&ndash;            </el-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;            <span>更换头像</span>&ndash;&gt;-->
-<!--&lt;!&ndash;          </el-menu-item>&ndash;&gt;-->
-<!--          <el-menu-item index="/user/resetPassword">-->
-<!--            <el-icon>-->
-<!--              <EditPen />-->
-<!--            </el-icon>-->
-<!--            <span>重置密码</span>-->
-<!--          </el-menu-item>-->
-<!--        </el-sub-menu>-->
       </el-menu>
     </el-aside>
     <!-- 右侧主区域 -->
     <el-container>
       <!-- 头部区域 -->
       <el-header>
-        <div>吧唧吧唧医院挂号管理系统后台：<strong>{{ userInfoStore.info.nickname }}</strong></div>
+        <div>瓦纳海姆医院挂号管理系统后台：<strong>{{ userInfoStore.info.nickname }}</strong></div>
         <el-dropdown placement="bottom-end" @command="handleCommand">
                     <span class="el-dropdown__box">
                         <el-avatar :src="userInfoStore.info.userPic? userInfoStore.info.userPic :avatar" />
@@ -158,9 +113,6 @@ const handleCommand = (command) => {
           <!-- command:条目被点击后会触发，在事件函数上可以声明一个参数接收条目对应的指令-->
           <template #dropdown>
             <el-dropdown-menu>
-<!--              <el-dropdown-item command="info" :icon="User">基本资料</el-dropdown-item>-->
-<!--              <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>-->
-<!--              <el-dropdown-item command="resetPassword" :icon="EditPen">重置密码</el-dropdown-item>-->
               <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -168,13 +120,10 @@ const handleCommand = (command) => {
       </el-header>
       <!-- 中间区域 -->
       <el-main>
-<!--        <div style="width: 1290px; height: 570px;border: 1px solid red;">-->
-<!--          内容展示区-->
-<!--        </div>-->
         <router-view></router-view>
       </el-main>
       <!-- 底部区域 -->
-      <el-footer>吧唧吧唧医院挂号管理系统后台 ©2024 Created by 张栩嘉 好好好</el-footer>
+      <el-footer>瓦纳海姆医院挂号管理系统后台 ©2024 Created by 张栩嘉</el-footer>
     </el-container>
   </el-container>
 </template>
@@ -184,11 +133,11 @@ const handleCommand = (command) => {
   height: 100vh;
 
   .el-aside {
-    background-color: #232323;
+    background-color: #b2e0fa;
 
     &__logo {
       height: 120px;
-      background: url('@/assets/login_title.png') no-repeat center / 120px auto;
+      background: url('@/assets/name2.png') no-repeat center / 300px auto;
     }
 
     .el-menu {
